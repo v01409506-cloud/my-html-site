@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carnival - بازی مافیا تایم</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: url('https://i.postimg.cc/LqsDBbN7/image.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(1px);
+        }
+        .menu-slide {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .menu-slide.open {
+            transform: translateX(0);
+        }
+        .joker-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white font-sans">
+    <div class="content-overlay min-h-screen">
+        <!-- Header -->
+        <header class="flex justify-between items-center p-4 bg-black bg-opacity-70">
+            <h1 class="text-4xl font-bold text-red-500 drop-shadow-lg">🎭 Carnival</h1>
+            <button id="menuBtn" class="text-3xl hover:text-red-500 transition-colors duration-300 hover:scale-110">☰</button>
+        </header>
+
+        <!-- Side Menu -->
+        <div id="sideMenu" class="fixed top-0 right-0 h-full w-80 bg-black bg-opacity-95 menu-slide z-50 border-l-2 border-red-500">
+            <div class="p-6">
+                <button id="closeMenu" class="text-3xl float-left hover:text-red-500 transition-colors duration-300 hover:rotate-90">✕</button>
+                <div class="clear-both mt-12">
+                    <div id="menuItems" class="space-y-3">
+                        <button onclick="showSection('home')" class="block w-full text-right p-4 hover:bg-red-600 rounded-lg transition-all duration-300 text-lg font-semibold">
+                            🏠 خانه
+                        </button>
+                        <button onclick="showSection('login')" class="block w-full text-right p-4 hover:bg-red-600 rounded-lg transition-all duration-300 text-lg font-semibold">
+                            👤 ورود به حساب کاربری
+                        </button>
+                        <button onclick="showSection('tutorials')" class="block w-full text-right p-4 hover:bg-red-600 rounded-lg transition-all duration-300 text-lg font-semibold">
+                            📚 آموزش مافیا
+                        </button>
+                        <button onclick="showSection('scenarios')" class="block w-full text-right p-4 hover:bg-red-600 rounded-lg transition-all duration-300 text-lg font-semibold">
+                            🎲 سناریوها
+                        </button>
+                        <button onclick="showSection('groups')" class="block w-full text-right p-4 hover:bg-red-600 rounded-lg transition-all duration-300 text-lg font-semibold">
+                            👥 گروه‌های مافیا تایم
+                        </button>
+                        <div id="adminMenuItems" style="display: none;">
+                            <button onclick="showSection('adminPanel')" class="block w-full text-right p-4 hover:bg-yellow-600 rounded-lg transition-all duration-300 text-lg font-semibold border-2 border-yellow-500">
+                                ⚙️ پنل مدیریت
+                            </button>
+                        </div>
+                        <button id="logoutBtn" onclick="logout()" class="block w-full text-right p-4 hover:bg-gray-600 rounded-lg transition-all duration-300 text-lg font-semibold" style="display: none;">
+                            🚪 خروج
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="container mx-auto p-6">
+            <!-- Home Section -->
+            <div id="homeSection" class="section">
+                <div class="text-center mb-12">
+                    <img src="https://i.postimg.cc/23v4NDJm/image.jpg" alt="کارناوال" class="w-32 h-32 mx-auto rounded-full mb-6 shadow-2xl border-4 border-red-500 object-cover">
+                    <h2 class="text-5xl font-bold mb-6 text-red-400 drop-shadow-lg">به کارناوال خوش آمدید</h2>
+                    <p class="text-2xl mb-8 text-gray-300">دنیای هیجان‌انگیز بازی مافیا</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    <div class="bg-black bg-opacity-80 p-8 rounded-xl card-hover border border-red-500">
+                        <h3 class="text-3xl font-bold mb-6 text-red-400 text-center">🎮 مافیا تایم</h3>
+                        <div class="text-center mb-6">
+                            <img src="https://i.postimg.cc/LqsDBbN7/image.jpg" alt="مافیا تایم" class="w-32 h-32 mx-auto rounded-full mb-6 shadow-2xl border-4 border-red-500 object-cover">
+                            <p class="text-lg mb-6 leading-relaxed">بازی مافیا تایم را دانلود کنید و وارد دنیای هیجان‌انگیز مافیا شوید! این بازی شما را به دنیایی پر از راز و رمز می‌برد.</p>
+                        </div>
+                        <div class="text-center">
+                            <a href="https://myket.ir/app/com.Sava.MafiaTime" target="_blank" 
+                               class="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 px-8 py-4 rounded-lg transition-all duration-300 text-lg font-bold shadow-lg hover:shadow-xl transform hover:scale-105">
+                                📱 دانلود از مایکت
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="bg-black bg-opacity-80 p-8 rounded-xl card-hover border border-blue-500">
+                        <h3 class="text-3xl font-bold mb-6 text-blue-400 text-center">📞 پشتیبانی</h3>
+                        <div class="text-center">
+                            <img src="https://i.postimg.cc/fVWNkG29/image.jpg" alt="پشتیبانی" class="w-32 h-32 mx-auto rounded-full mb-6 shadow-2xl border-4 border-blue-500 object-cover">
+                            <p class="text-lg mb-6 leading-relaxed">برای هرگونه سوال، مشکل یا پیشنهاد با ما در تماس باشید. تیم پشتیبانی ما آماده کمک به شماست.</p>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <p class="text-yellow-400 text-xl font-bold">v01409506@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Latest Content Display -->
+                <div id="homeContentDisplay" class="mt-12">
+                    <!-- Content will be loaded here -->
+                </div>
+
+                <div class="mt-12 text-center">
+                    <div class="bg-black bg-opacity-80 p-8 rounded-xl max-w-4xl mx-auto border border-purple-500">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-3xl font-bold text-purple-400">🎭 درباره کارناوال</h3>
+                            <div id="adminAboutControls" style="display: none;">
+                                <button onclick="editAboutSection()" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded-lg font-bold transition-colors text-sm border-2 border-yellow-500">
+                                    ✏️ ویرایش
+                                </button>
+                            </div>
+                        </div>
+                        <div id="aboutContent">
+                            <p class="text-lg leading-relaxed text-gray-300">
+                                کارناوال یک پلتفرم جامع برای علاقه‌مندان به بازی مافیا است. در اینجا می‌توانید آموزش‌های کامل، سناریوهای متنوع و گروه‌های مختلف بازی را پیدا کنید. 
+                                همچنین امکان دانلود بازی مافیا تایم و ارتباط با سایر بازیکنان را دارید.
+                            </p>
+                        </div>
+                        <div id="aboutEditForm" style="display: none;" class="mt-6">
+                            <textarea id="aboutTextEdit" rows="4" class="w-full p-4 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-purple-500 transition-colors"></textarea>
+                            <div class="mt-4 space-x-2 space-x-reverse">
+                                <button onclick="saveAboutSection()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-lg font-bold transition-colors">
+                                    ✅ ذخیره
+                                </button>
+                                <button onclick="cancelAboutEdit()" class="bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded-lg font-bold transition-colors">
+                                    ✕ لغو
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Section -->
+            <div id="loginSection" class="section hidden">
+                <div class="max-w-lg mx-auto">
+                    <div class="bg-black bg-opacity-90 p-10 rounded-xl border-2 border-red-500 shadow-2xl">
+                        <div class="text-center mb-8">
+                            <div class="joker-icon">🎭</div>
+                            <h2 class="text-4xl font-bold text-red-400">ورود به حساب</h2>
+                        </div>
+                        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+                            <div>
+                                <label class="block text-lg font-bold mb-3 text-gray-300">نام کاربری:</label>
+                                <input type="text" id="username" required 
+                                       class="w-full p-4 rounded-lg bg-gray-800 text-white border-2 border-gray-600 focus:border-red-500 transition-colors text-lg"
+                                       placeholder="نام کاربری خود را وارد کنید">
+                            </div>
+                            <div>
+                                <label class="block text-lg font-bold mb-3 text-gray-300">رمز عبور:</label>
+                                <input type="password" id="password" required 
+                                       class="w-full p-4 rounded-lg bg-gray-800 text-white border-2 border-gray-600 focus:border-red-500 transition-colors text-lg"
+                                       placeholder="رمز عبور خود را وارد کنید">
+                            </div>
+                            <div>
+                                <label class="block text-lg font-bold mb-3 text-gray-300">نام در بازی:</label>
+                                <input type="text" id="gameName" required 
+                                       class="w-full p-4 rounded-lg bg-gray-800 text-white border-2 border-gray-600 focus:border-red-500 transition-colors text-lg"
+                                       placeholder="نام نمایشی در بازی">
+                            </div>
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 p-4 rounded-lg font-bold transition-all duration-300 text-xl shadow-lg hover:shadow-xl transform hover:scale-105">
+                                ورود / ثبت نام
+                            </button>
+                        </form>
+                        <div id="loginMessage" class="mt-6 text-center text-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tutorials Section -->
+            <div id="tutorialsSection" class="section hidden">
+                <div class="bg-black bg-opacity-90 p-8 rounded-xl border border-blue-500">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-bold text-blue-400 mb-4">📚 آموزش بازی مافیا</h2>
+                        <p class="text-lg text-gray-300">همه چیز درباره بازی مافیا را اینجا یاد بگیرید</p>
+                        <div id="adminTutorialControls" style="display: none;" class="mt-6">
+                            <button onclick="showTutorialManagement()" class="bg-yellow-600 hover:bg-yellow-700 px-6 py-3 rounded-lg font-bold transition-colors text-lg border-2 border-yellow-500">
+                                ⚙️ مدیریت آموزش‌ها
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Tutorial Management Panel -->
+                    <div id="tutorialManagementPanel" style="display: none;" class="mb-8 bg-gray-800 p-6 rounded-lg border-2 border-yellow-500">
+                        <h3 class="text-2xl font-bold mb-6 text-yellow-400">⚙️ مدیریت آموزش‌ها</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Add Tutorial -->
+                            <div class="bg-gray-700 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold mb-4 text-green-400">➕ افزودن آموزش</h4>
+                                <div class="space-y-3">
+                                    <input type="text" id="newTutorialTitle" placeholder="عنوان آموزش جدید" 
+                                           class="w-full p-3 rounded-lg bg-gray-600 text-white border border-gray-500 focus:border-green-500 transition-colors">
+                                    <textarea id="newTutorialText" rows="3" placeholder="متن آموزش" 
+                                              class="w-full p-3 rounded-lg bg-gray-600 text-white border border-gray-500 focus:border-green-500 transition-colors"></textarea>
+                                    <button onclick="addNewTutorial()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition-colors">
+                                        ➕ افزودن آموزش
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Delete Tutorial -->
+                            <div class="bg-gray-700 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold mb-4 text-red-400">🗑️ حذف آموزش</h4>
+                                <div class="space-y-3">
+                                    <select id="tutorialToDelete" class="w-full p-3 rounded-lg bg-gray-600 text-white border border-gray-500 focus:border-red-500 transition-colors">
+                                        <option value="">انتخاب آموزش برای حذف</option>
+                                    </select>
+                                    <button onclick="deleteSelectedTutorial()" class="w-full bg-red-600 hover:bg-red-700 p-3 rounded-lg font-bold transition-colors">
+                                        🗑️ حذف آموزش
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button onclick="hideTutorialManagement()" class="bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg font-bold transition-colors">
+                                ✕ بستن
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="tutorialContent">
+                        <div class="space-y-6">
+                            <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-yellow-500">
+                                <h3 class="text-2xl font-bold mb-4 text-yellow-400">🎯 قوانین اصلی</h3>
+                                <p class="text-lg leading-relaxed">بازی مافیا یک بازی گروهی است که در آن شهروندان سعی می‌کنند مافیاها را پیدا کنند و آنها را از شهر اخراج کنند. هدف مافیاها نیز حذف تمام شهروندان است.</p>
+                            </div>
+                            <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-green-500">
+                                <h3 class="text-2xl font-bold mb-4 text-green-400">👥 نقش‌ها</h3>
+                                <p class="text-lg leading-relaxed">هر بازیکن نقشی دارد: شهروند عادی، مافیا، کارآگاه، دکتر، نگهبان و نقش‌های ویژه دیگر. هر نقش قدرت و وظایف خاص خود را دارد.</p>
+                            </div>
+                            <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-purple-500">
+                                <h3 class="text-2xl font-bold mb-4 text-purple-400">🌙 مراحل بازی</h3>
+                                <p class="text-lg leading-relaxed">بازی شامل دو مرحله شب و روز است. در شب مافیاها عمل می‌کنند و در روز همه بازیکنان برای رای دادن و اخراج مظنون جمع می‌شوند.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenarios Section -->
+            <div id="scenariosSection" class="section hidden">
+                <div class="bg-black bg-opacity-90 p-8 rounded-xl border border-green-500">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-bold text-green-400 mb-4">🎲 سناریوهای بازی</h2>
+                        <p class="text-lg text-gray-300">سناریوهای مختلف برای تجربه‌ای متنوع</p>
+                    </div>
+                    <div id="scenarioContent">
+                        <div class="grid gap-6">
+                            <div class="bg-gray-800 p-6 rounded-lg border border-red-400">
+                                <h3 class="text-2xl font-bold mb-4 text-red-400">🏛️ سناریو کلاسیک</h3>
+                                <p class="text-lg leading-relaxed">سناریو استاندارد با نقش‌های اصلی مافیا، شهروند، کارآگاه و دکتر. مناسب برای مبتدیان.</p>
+                            </div>
+                            <div class="bg-gray-800 p-6 rounded-lg border border-blue-400">
+                                <h3 class="text-2xl font-bold mb-4 text-blue-400">🎭 سناریو پیشرفته</h3>
+                                <p class="text-lg leading-relaxed">شامل نقش‌های ویژه مانند روانپزشک، قاضی، شهردار و... برای بازیکنان با تجربه.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Groups Section -->
+            <div id="groupsSection" class="section hidden">
+                <div class="bg-black bg-opacity-90 p-8 rounded-xl border border-purple-500">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-bold text-purple-400 mb-4">👥 گروه‌های مافیا تایم</h2>
+                        <p class="text-lg text-gray-300">به گروه‌های مختلف بپیوندید و با دیگران بازی کنید</p>
+                        <div id="adminGroupControls" style="display: none;" class="mt-6">
+                            <button onclick="showGroupManagement()" class="bg-yellow-600 hover:bg-yellow-700 px-6 py-3 rounded-lg font-bold transition-colors text-lg border-2 border-yellow-500">
+                                ⚙️ مدیریت گروه‌ها
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Management Panel -->
+                    <div id="groupManagementPanel" style="display: none;" class="mb-8 bg-gray-800 p-6 rounded-lg border-2 border-yellow-500">
+                        <h3 class="text-2xl font-bold mb-6 text-yellow-400">⚙️ مدیریت گروه‌ها</h3>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <!-- Add Group -->
+                            <div class="bg-gray-700 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold mb-4 text-green-400">➕ افزودن گروه</h4>
+                                <div class="space-y-3">
+                                    <input type="text" id="newGroupName" placeholder="نام گروه جدید" 
+                                           class="w-full p-3 rounded-lg bg-gray-600 text-white border border-gray-500 focus:border-green-500 transition-colors">
+                                    <button onclick="addNewGroup()" class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition-colors">
+                                        ➕ افزودن گروه
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Delete Group -->
+                            <div class="bg-gray-700 p-4 rounded-lg">
+                                <h4 class="text-lg font-bold mb-4 text-red-400">🗑️ حذف گروه</h4>
+                                <div class="space-y-3">
+                                    <select id="groupToDelete" class="w-full p-3 rounded-lg bg-gray-600 text-white border border-gray-500 focus:border-red-500 transition-colors">
+                                        <option value="">انتخاب گروه برای حذف</option>
+                                    </select>
+                                    <button onclick="deleteSelectedGroup()" class="w-full bg-red-600 hover:bg-red-700 p-3 rounded-lg font-bold transition-colors">
+                                        🗑️ حذف گروه
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button onclick="hideGroupManagement()" class="bg-gray-600 hover:bg-gray-700 px-6 py-2 rounded-lg font-bold transition-colors">
+                                ✕ بستن
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="groupContent">
+                        <div class="grid gap-6">
+                            <div class="bg-gray-800 p-6 rounded-lg border border-green-400">
+                                <h3 class="text-2xl font-bold mb-4 text-green-400">🌱 گروه مبتدیان</h3>
+                                <p class="text-lg leading-relaxed">برای تازه‌کاران بازی مافیا. محیطی دوستانه برای یادگیری.</p>
+                            </div>
+                            <div class="bg-gray-800 p-6 rounded-lg border border-orange-400">
+                                <h3 class="text-2xl font-bold mb-4 text-orange-400">🔥 گروه حرفه‌ای‌ها</h3>
+                                <p class="text-lg leading-relaxed">برای بازیکنان با تجربه که به دنبال چالش‌های جدی هستند.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Panel -->
+            <div id="adminPanelSection" class="section hidden">
+                <div class="bg-black bg-opacity-90 p-8 rounded-xl border-2 border-yellow-500">
+                    <div class="text-center mb-8">
+                        <h2 class="text-4xl font-bold text-yellow-400 mb-4">⚙️ پنل مدیریت</h2>
+                        <p class="text-lg text-gray-300">مدیریت کامل محتوای سایت</p>
+                    </div>
+                    
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Content Management -->
+                        <div class="bg-gray-800 p-6 rounded-lg border border-blue-400">
+                            <h3 class="text-2xl font-bold mb-6 text-blue-400">📝 مدیریت محتوا</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">عنوان:</label>
+                                    <input type="text" id="contentTitle" 
+                                           class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors"
+                                           placeholder="عنوان محتوا را وارد کنید">
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">متن:</label>
+                                    <textarea id="contentText" rows="4" 
+                                              class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors"
+                                              placeholder="متن محتوا را وارد کنید"></textarea>
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">URL تصویر:</label>
+                                    <input type="url" id="contentImage" 
+                                           class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors"
+                                           placeholder="لینک تصویر (اختیاری)">
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">نوع محتوا:</label>
+                                    <select id="contentType" onchange="toggleContentFields()" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors">
+                                        <option value="tutorial">آموزش</option>
+                                        <option value="scenario">سناریو</option>
+                                        <option value="group">گروه</option>
+                                        <option value="site">محتوای سایت</option>
+                                    </select>
+                                </div>
+                                <div id="tutorialFields" style="display: none;">
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">متن تفصیلی آموزش:</label>
+                                    <textarea id="tutorialDetails" rows="4" 
+                                              class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors"
+                                              placeholder="توضیحات تفصیلی آموزش را وارد کنید"></textarea>
+                                </div>
+                                <div id="groupFields" style="display: none;">
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">اعضای گروه (با کاما جدا کنید):</label>
+                                    <input type="text" id="groupMembers" 
+                                           class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors"
+                                           placeholder="مثال: علی, سارا, محمد">
+                                </div>
+                                <div id="siteFields" style="display: none;">
+                                    <label class="block text-lg font-bold mb-2 text-gray-300">نوع محتوای سایت:</label>
+                                    <select id="siteContentType" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-blue-500 transition-colors">
+                                        <option value="news">اخبار</option>
+                                        <option value="announcement">اطلاعیه</option>
+                                        <option value="event">رویداد</option>
+                                        <option value="update">بروزرسانی</option>
+                                    </select>
+                                </div>
+                                <button onclick="addContent()" 
+                                        class="w-full bg-green-600 hover:bg-green-700 p-3 rounded-lg font-bold transition-colors text-lg">
+                                    ➕ افزودن محتوا
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- User Management -->
+                        <div class="bg-gray-800 p-6 rounded-lg border border-green-400">
+                            <h3 class="text-2xl font-bold mb-6 text-green-400">👥 کاربران آنلاین</h3>
+                            <div id="usersList" class="space-y-3">
+                                <!-- Users will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Back Button -->
+        <button id="backBtn" onclick="showSection('home')" 
+                class="fixed bottom-6 left-6 bg-gray-800 hover:bg-gray-700 p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                style="display: none;">
+            ↩️
+        </button>
+    </div>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('carnivalUsers') || '{}');
+        let content = JSON.parse(localStorage.getItem('carnivalContent') || '{"tutorials":[],"scenarios":[],"groups":[],"siteContent":[]}');
+        
+        // Toggle content fields based on type
+        function toggleContentFields() {
+            const contentType = document.getElementById('contentType').value;
+            const tutorialFields = document.getElementById('tutorialFields');
+            const groupFields = document.getElementById('groupFields');
+            const siteFields = document.getElementById('siteFields');
+            
+            tutorialFields.style.display = contentType === 'tutorial' ? 'block' : 'none';
+            groupFields.style.display = contentType === 'group' ? 'block' : 'none';
+            siteFields.style.display = contentType === 'site' ? 'block' : 'none';
+        }
+        
+        // Get color for site content types
+        function getSiteContentColor(siteType) {
+            const colors = {
+                'news': 'blue',
+                'announcement': 'yellow',
+                'event': 'green',
+                'update': 'purple'
+            };
+            return colors[siteType] || 'blue';
+        }
+        
+        // Get icon for site content types
+        function getSiteContentIcon(siteType) {
+            const icons = {
+                'news': '📰',
+                'announcement': '📢',
+                'event': '🎉',
+                'update': '🔄'
+            };
+            return icons[siteType] || '📰';
+        }
+        
+        // Initialize admin user
+        if (!users['amir990']) {
+            users['amir990'] = {
+                password: 'amir',
+                gameName: 'amir',
+                isAdmin: true,
+                loginTime: null
+            };
+            localStorage.setItem('carnivalUsers', JSON.stringify(users));
+        }
+
+        // Menu functionality
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            document.getElementById('sideMenu').classList.add('open');
+        });
+
+        document.getElementById('closeMenu').addEventListener('click', () => {
+            document.getElementById('sideMenu').classList.remove('open');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('sideMenu');
+            const menuBtn = document.getElementById('menuBtn');
+            if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
+                menu.classList.remove('open');
+            }
+        });
+
+        // Section navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionName + 'Section').classList.remove('hidden');
+            document.getElementById('sideMenu').classList.remove('open');
+            
+            // Show/hide back button
+            const backBtn = document.getElementById('backBtn');
+            if (sectionName === 'home') {
+                backBtn.style.display = 'none';
+            } else {
+                backBtn.style.display = 'block';
+            }
+        }
+
+        // Login functionality
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const gameName = document.getElementById('gameName').value.trim();
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (!username || !password || !gameName) {
+                messageDiv.innerHTML = '<p class="text-red-500 font-bold">لطفاً تمام فیلدها را پر کنید!</p>';
+                return;
+            }
+
+            // Check if game name is already taken by another user
+            const existingUser = Object.entries(users).find(([key, user]) => 
+                user.gameName === gameName && key !== username
+            );
+
+            if (existingUser) {
+                messageDiv.innerHTML = '<p class="text-red-500 font-bold">❌ این نام در بازی قبلاً توسط کاربر دیگری استفاده شده است!</p>';
+                return;
+            }
+
+            if (users[username]) {
+                // Existing user login
+                if (users[username].password === password) {
+                    users[username].gameName = gameName;
+                    users[username].loginTime = new Date().toISOString();
+                    currentUser = { username, ...users[username] };
+                    localStorage.setItem('carnivalUsers', JSON.stringify(users));
+                    
+                    messageDiv.innerHTML = '<p class="text-green-500 font-bold">✅ ورود موفقیت‌آمیز!</p>';
+                    
+                    if (currentUser.isAdmin) {
+                        document.getElementById('adminMenuItems').style.display = 'block';
+                        document.getElementById('adminGroupControls').style.display = 'block';
+                        document.getElementById('adminTutorialControls').style.display = 'block';
+                        document.getElementById('adminAboutControls').style.display = 'block';
+                    }
+                    document.getElementById('logoutBtn').style.display = 'block';
+                    
+                    setTimeout(() => showSection('home'), 1500);
+                } else {
+                    messageDiv.innerHTML = '<p class="text-red-500 font-bold">❌ رمز عبور اشتباه است!</p>';
+                }
+            } else {
+                // New user registration
+                users[username] = {
+                    password: password,
+                    gameName: gameName,
+                    isAdmin: false,
+                    loginTime: new Date().toISOString()
+                };
+                currentUser = { username, ...users[username] };
+                localStorage.setItem('carnivalUsers', JSON.stringify(users));
+                
+                messageDiv.innerHTML = '<p class="text-green-500 font-bold">✅ حساب جدید با موفقیت ایجاد شد!</p>';
+                document.getElementById('logoutBtn').style.display = 'block';
+                
+                setTimeout(() => showSection('home'), 1500);
+            }
+            
+            updateUsersList();
+        }
+
+        // Logout functionality
+        function logout() {
+            if (currentUser) {
+                users[currentUser.username].loginTime = null;
+                localStorage.setItem('carnivalUsers', JSON.stringify(users));
+            }
+            
+            currentUser = null;
+            document.getElementById('adminMenuItems').style.display = 'none';
+            document.getElementById('adminGroupControls').style.display = 'none';
+            document.getElementById('adminTutorialControls').style.display = 'none';
+            document.getElementById('adminAboutControls').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginMessage').innerHTML = '';
+            showSection('home');
+            updateUsersList();
+        }
+
+        // Admin content management
+        function addContent() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند محتوا اضافه کند!');
+                return;
+            }
+
+            const title = document.getElementById('contentTitle').value.trim();
+            const text = document.getElementById('contentText').value.trim();
+            const image = document.getElementById('contentImage').value.trim();
+            const type = document.getElementById('contentType').value;
+
+            if (!title || !text) {
+                alert('❌ لطفاً عنوان و متن را پر کنید!');
+                return;
+            }
+
+            const newContent = {
+                id: Date.now(),
+                title: title,
+                text: text,
+                image: image,
+                createdAt: new Date().toISOString()
+            };
+
+            // Add specific fields based on content type
+            if (type === 'tutorial') {
+                const details = document.getElementById('tutorialDetails').value.trim();
+                if (details) {
+                    newContent.details = details;
+                }
+            } else if (type === 'group') {
+                const members = document.getElementById('groupMembers').value.trim();
+                if (members) {
+                    newContent.members = members.split(',').map(member => member.trim()).filter(member => member);
+                }
+            } else if (type === 'site') {
+                const siteContentType = document.getElementById('siteContentType').value;
+                newContent.siteType = siteContentType;
+                newContent.color = getSiteContentColor(siteContentType);
+            }
+
+            const contentKey = type === 'site' ? 'siteContent' : type + 's';
+            content[contentKey].push(newContent);
+            localStorage.setItem('carnivalContent', JSON.stringify(content));
+
+            // Clear form
+            document.getElementById('contentTitle').value = '';
+            document.getElementById('contentText').value = '';
+            document.getElementById('contentImage').value = '';
+            document.getElementById('tutorialDetails').value = '';
+            document.getElementById('groupMembers').value = '';
+            document.getElementById('siteContentType').value = 'news';
+
+            // Refresh content display
+            loadContent();
+            loadHomeContent();
+            alert('✅ محتوا با موفقیت اضافه شد!');
+        }
+
+        // Load and display content
+        function loadContent() {
+            // Load tutorials
+            const tutorialDiv = document.getElementById('tutorialContent');
+            let tutorialHTML = '<div class="space-y-6">';
+            
+            // Default tutorials
+            const defaultTutorials = [
+                {
+                    id: 'default1',
+                    title: '🎯 قوانین اصلی',
+                    text: 'بازی مافیا یک بازی گروهی است که در آن شهروندان سعی می‌کنند مافیاها را پیدا کنند و آنها را از شهر اخراج کنند. هدف مافیاها نیز حذف تمام شهروندان است.',
+                    image: '',
+                    color: 'yellow'
+                },
+                {
+                    id: 'default2',
+                    title: '👥 نقش‌ها',
+                    text: 'هر بازیکن نقشی دارد: شهروند عادی، مافیا، کارآگاه، دکتر، نگهبان و نقش‌های ویژه دیگر. هر نقش قدرت و وظایف خاص خود را دارد.',
+                    image: '',
+                    color: 'green'
+                },
+                {
+                    id: 'default3',
+                    title: '🌙 مراحل بازی',
+                    text: 'بازی شامل دو مرحله شب و روز است. در شب مافیاها عمل می‌کنند و در روز همه بازیکنان برای رای دادن و اخراج مظنون جمع می‌شوند.',
+                    image: '',
+                    color: 'purple'
+                }
+            ];
+
+            // Filter out overridden defaults and merge with custom content
+            const allTutorials = [...defaultTutorials, ...content.tutorials];
+            const filteredTutorials = allTutorials.filter(tutorial => {
+                // If it's a custom content that overrides a default, hide the default
+                if (tutorial.id && tutorial.id.startsWith('default')) {
+                    const isOverridden = content.tutorials.some(custom => custom.overrideDefault === tutorial.id);
+                    return !isOverridden;
+                }
+                return true;
+            });
+
+            filteredTutorials.forEach(tutorial => {
+                const color = tutorial.color || 'blue';
+                const safeTitle = tutorial.title.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                const safeText = tutorial.text.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                
+                // Add detailed text if available
+                const detailsHTML = tutorial.details ? `
+                    <div class="mt-4 p-4 bg-gray-700 rounded-lg border-r-4 border-${color}-400">
+                        <h4 class="text-lg font-bold mb-3 text-${color}-300">📖 توضیحات تفصیلی:</h4>
+                        <p class="text-base leading-relaxed text-gray-300">${tutorial.details}</p>
+                    </div>
+                ` : '';
+                
+                tutorialHTML += `
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-${color}-500">
+                        ${tutorial.image ? `<img src="${tutorial.image}" alt="${tutorial.title}" class="w-full h-48 object-cover rounded-lg mb-4">` : ''}
+                        <h3 class="text-2xl font-bold mb-4 text-${color}-400">${tutorial.title}</h3>
+                        <p class="text-lg leading-relaxed">${tutorial.text}</p>
+                        ${detailsHTML}
+                        ${currentUser && currentUser.isAdmin ? `
+                            <div class="mt-4 space-x-2 space-x-reverse">
+                                <button onclick="editContent('tutorials', '${tutorial.id}', '${safeTitle}', '${safeText}', '${tutorial.image || ''}', '${tutorial.color || 'blue'}')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">✏️ ویرایش</button>
+                                ${!tutorial.id || !tutorial.id.toString().startsWith('default') ? `<button onclick="deleteContent('tutorials', '${tutorial.id}')" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">🗑️ حذف</button>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            tutorialHTML += '</div>';
+            tutorialDiv.innerHTML = tutorialHTML;
+
+            // Load scenarios
+            const scenarioDiv = document.getElementById('scenarioContent');
+            let scenarioHTML = '<div class="grid gap-6">';
+            
+            const defaultScenarios = [
+                {
+                    id: 'default1',
+                    title: '🏛️ سناریو کلاسیک',
+                    text: 'سناریو استاندارد با نقش‌های اصلی مافیا، شهروند، کارآگاه و دکتر. مناسب برای مبتدیان.',
+                    image: '',
+                    color: 'red'
+                },
+                {
+                    id: 'default2',
+                    title: '🎭 سناریو پیشرفته',
+                    text: 'شامل نقش‌های ویژه مانند روانپزشک، قاضی، شهردار و... برای بازیکنان با تجربه.',
+                    image: '',
+                    color: 'blue'
+                }
+            ];
+
+            [...defaultScenarios, ...content.scenarios].forEach(scenario => {
+                const color = scenario.color || 'green';
+                scenarioHTML += `
+                    <div class="bg-gray-800 p-6 rounded-lg border border-${color}-400">
+                        ${scenario.image ? `<img src="${scenario.image}" alt="${scenario.title}" class="w-full h-48 object-cover rounded-lg mb-4">` : ''}
+                        <h3 class="text-2xl font-bold mb-4 text-${color}-400">${scenario.title}</h3>
+                        <p class="text-lg leading-relaxed">${scenario.text}</p>
+                        ${currentUser && currentUser.isAdmin && scenario.id !== 'default1' && scenario.id !== 'default2' ? `<button onclick="deleteContent('scenarios', ${scenario.id})" class="mt-4 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">🗑️ حذف</button>` : ''}
+                    </div>
+                `;
+            });
+            scenarioHTML += '</div>';
+            scenarioDiv.innerHTML = scenarioHTML;
+
+            // Load groups
+            const groupDiv = document.getElementById('groupContent');
+            let groupHTML = '<div class="grid gap-6">';
+            
+            const defaultGroups = [
+                {
+                    id: 'default1',
+                    title: '🌱 گروه مبتدیان',
+                    text: 'برای تازه‌کاران بازی مافیا. محیطی دوستانه برای یادگیری.',
+                    image: '',
+                    color: 'green'
+                },
+                {
+                    id: 'default2',
+                    title: '🔥 گروه حرفه‌ای‌ها',
+                    text: 'برای بازیکنان با تجربه که به دنبال چالش‌های جدی هستند.',
+                    image: '',
+                    color: 'orange'
+                }
+            ];
+
+            // Filter out overridden defaults and merge with custom content
+            const allGroups = [...defaultGroups, ...content.groups];
+            const filteredGroups = allGroups.filter(group => {
+                // If it's a custom content that overrides a default, hide the default
+                if (group.id && group.id.startsWith('default')) {
+                    const isOverridden = content.groups.some(custom => custom.overrideDefault === group.id);
+                    return !isOverridden;
+                }
+                return true;
+            });
+
+            filteredGroups.forEach(group => {
+                const color = group.color || 'purple';
+                const safeTitle = group.title.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                const safeText = group.text.replace(/'/g, "\\'").replace(/"/g, '\\"');
+                
+                // Display members if available
+                const membersHTML = group.members && group.members.length > 0 ? `
+                    <div class="mt-4 p-4 bg-gray-700 rounded-lg border-r-4 border-${color}-400">
+                        <h4 class="text-lg font-bold mb-3 text-${color}-300">👥 اعضای گروه:</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${group.members.map(member => `
+                                <span class="bg-${color}-600 text-white px-3 py-1 rounded-full text-sm font-semibold">${member}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : '';
+                
+                groupHTML += `
+                    <div class="bg-gray-800 p-6 rounded-lg border border-${color}-400">
+                        ${group.image ? `<img src="${group.image}" alt="${group.title}" class="w-full h-48 object-cover rounded-lg mb-4">` : ''}
+                        <h3 class="text-2xl font-bold mb-4 text-${color}-400">${group.title}</h3>
+                        <p class="text-lg leading-relaxed">${group.text}</p>
+                        ${membersHTML}
+                        ${currentUser && currentUser.isAdmin ? `
+                            <div class="mt-4 space-x-2 space-x-reverse">
+                                <button onclick="editContent('groups', '${group.id}', '${safeTitle}', '${safeText}', '${group.image || ''}', '${group.color || 'purple'}')" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">✏️ ویرایش</button>
+                                ${!group.id || !group.id.toString().startsWith('default') ? `<button onclick="deleteContent('groups', '${group.id}')" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-bold transition-colors">🗑️ حذف</button>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            groupHTML += '</div>';
+            groupDiv.innerHTML = groupHTML;
+        }
+
+        // Edit content
+        function editContent(type, id, title, text, image, color) {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند محتوا ویرایش کند!');
+                return;
+            }
+
+            // Fill the form with current values
+            document.getElementById('contentTitle').value = title;
+            document.getElementById('contentText').value = text;
+            document.getElementById('contentImage').value = image;
+            document.getElementById('contentType').value = type.slice(0, -1); // Remove 's' from end
+
+            // Toggle fields based on content type
+            toggleContentFields();
+
+            // Fill specific fields if editing existing content
+            const contentArray = content[type];
+            const existingContent = contentArray.find(item => item.id == id);
+            if (existingContent) {
+                if (existingContent.details) {
+                    document.getElementById('tutorialDetails').value = existingContent.details;
+                }
+                if (existingContent.members) {
+                    document.getElementById('groupMembers').value = existingContent.members.join(', ');
+                }
+            }
+
+            // Store edit info for update
+            window.editingContent = { type, id };
+
+            // Change button text and function
+            const addButton = document.querySelector('#adminPanelSection button[onclick="addContent()"]');
+            addButton.innerHTML = '✏️ بروزرسانی محتوا';
+            addButton.setAttribute('onclick', 'updateContent()');
+
+            // Show admin panel
+            showSection('adminPanel');
+            
+            // Scroll to form
+            document.getElementById('contentTitle').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update content
+        function updateContent() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند محتوا بروزرسانی کند!');
+                return;
+            }
+
+            const title = document.getElementById('contentTitle').value.trim();
+            const text = document.getElementById('contentText').value.trim();
+            const image = document.getElementById('contentImage').value.trim();
+            const contentType = document.getElementById('contentType').value;
+
+            if (!title || !text) {
+                alert('❌ لطفاً عنوان و متن را پر کنید!');
+                return;
+            }
+
+            const { type, id } = window.editingContent;
+
+            // Check if it's a default item (update in place)
+            if (id.startsWith('default')) {
+                // For default items, we need to handle them specially
+                // We'll create a new item to override the default
+                const newContent = {
+                    id: Date.now(),
+                    title: title,
+                    text: text,
+                    image: image,
+                    overrideDefault: id,
+                    createdAt: new Date().toISOString()
+                };
+
+                // Add specific fields based on content type
+                if (contentType === 'tutorial') {
+                    const details = document.getElementById('tutorialDetails').value.trim();
+                    if (details) {
+                        newContent.details = details;
+                    }
+                } else if (contentType === 'group') {
+                    const members = document.getElementById('groupMembers').value.trim();
+                    if (members) {
+                        newContent.members = members.split(',').map(member => member.trim()).filter(member => member);
+                    }
+                }
+
+                content[type].push(newContent);
+            } else {
+                // Update existing custom content
+                const itemIndex = content[type].findIndex(item => item.id == id);
+                if (itemIndex !== -1) {
+                    content[type][itemIndex] = {
+                        ...content[type][itemIndex],
+                        title: title,
+                        text: text,
+                        image: image,
+                        updatedAt: new Date().toISOString()
+                    };
+
+                    // Update specific fields based on content type
+                    if (contentType === 'tutorial') {
+                        const details = document.getElementById('tutorialDetails').value.trim();
+                        content[type][itemIndex].details = details;
+                    } else if (contentType === 'group') {
+                        const members = document.getElementById('groupMembers').value.trim();
+                        content[type][itemIndex].members = members ? members.split(',').map(member => member.trim()).filter(member => member) : [];
+                    }
+                }
+            }
+
+            localStorage.setItem('carnivalContent', JSON.stringify(content));
+
+            // Reset form and button
+            document.getElementById('contentTitle').value = '';
+            document.getElementById('contentText').value = '';
+            document.getElementById('contentImage').value = '';
+            document.getElementById('tutorialDetails').value = '';
+            document.getElementById('groupMembers').value = '';
+            
+            const addButton = document.querySelector('#adminPanelSection button[onclick="updateContent()"]');
+            addButton.innerHTML = '➕ افزودن محتوا';
+            addButton.setAttribute('onclick', 'addContent()');
+
+            delete window.editingContent;
+
+            // Refresh content display
+            loadContent();
+            alert('✅ محتوا با موفقیت بروزرسانی شد!');
+        }
+
+        // Delete content
+        function deleteContent(type, id) {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند محتوا حذف کند!');
+                return;
+            }
+
+            if (confirm('آیا مطمئن هستید که می‌خواهید این محتوا را حذف کنید؟')) {
+                content[type] = content[type].filter(item => item.id != id);
+                localStorage.setItem('carnivalContent', JSON.stringify(content));
+                loadContent();
+                alert('✅ محتوا با موفقیت حذف شد!');
+            }
+        }
+
+        // Update users list in admin panel
+        function updateUsersList() {
+            const usersList = document.getElementById('usersList');
+            if (!usersList) return;
+
+            const onlineUsers = Object.entries(users).filter(([username, user]) => user.loginTime);
+            
+            if (onlineUsers.length > 0) {
+                usersList.innerHTML = onlineUsers.map(([username, user]) => `
+                    <div class="bg-gray-700 p-4 rounded-lg border-r-4 border-green-500">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-green-400 text-xl">🟢</span> 
+                                <span class="font-bold text-lg">${user.gameName}</span>
+                                <span class="text-gray-400">(${username})</span>
+                                ${user.isAdmin ? '<span class="text-yellow-400 text-xl">👑</span>' : ''}
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                ${new Date(user.loginTime).toLocaleString('fa-IR')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                usersList.innerHTML = '<div class="text-center p-8"><p class="text-gray-400 text-lg">😴 هیچ کاربری آنلاین نیست</p></div>';
+            }
+        }
+
+        // Tutorial management functions
+        function showTutorialManagement() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند آموزش‌ها را مدیریت کند!');
+                return;
+            }
+            
+            document.getElementById('tutorialManagementPanel').style.display = 'block';
+            updateTutorialDeleteList();
+        }
+
+        function hideTutorialManagement() {
+            document.getElementById('tutorialManagementPanel').style.display = 'none';
+            document.getElementById('newTutorialTitle').value = '';
+            document.getElementById('newTutorialText').value = '';
+            document.getElementById('tutorialToDelete').value = '';
+        }
+
+        function addNewTutorial() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند آموزش اضافه کند!');
+                return;
+            }
+
+            const title = document.getElementById('newTutorialTitle').value.trim();
+            const text = document.getElementById('newTutorialText').value.trim();
+            
+            if (!title || !text) {
+                alert('❌ لطفاً عنوان و متن آموزش را وارد کنید!');
+                return;
+            }
+
+            const newTutorial = {
+                id: Date.now(),
+                title: title,
+                text: text,
+                image: '',
+                color: 'blue',
+                createdAt: new Date().toISOString()
+            };
+
+            content.tutorials.push(newTutorial);
+            localStorage.setItem('carnivalContent', JSON.stringify(content));
+            
+            document.getElementById('newTutorialTitle').value = '';
+            document.getElementById('newTutorialText').value = '';
+            loadContent();
+            loadHomeContent();
+            updateTutorialDeleteList();
+            alert('✅ آموزش جدید با موفقیت اضافه شد!');
+        }
+
+        function updateTutorialDeleteList() {
+            const select = document.getElementById('tutorialToDelete');
+            select.innerHTML = '<option value="">انتخاب آموزش برای حذف</option>';
+            
+            content.tutorials.forEach(tutorial => {
+                if (!tutorial.id || !tutorial.id.toString().startsWith('default')) {
+                    const option = document.createElement('option');
+                    option.value = tutorial.id;
+                    option.textContent = tutorial.title.replace(/🎯|👥|🌙|📖/g, '').trim();
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function deleteSelectedTutorial() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند آموزش حذف کند!');
+                return;
+            }
+
+            const tutorialId = document.getElementById('tutorialToDelete').value;
+            if (!tutorialId) {
+                alert('❌ لطفاً آموزشی برای حذف انتخاب کنید!');
+                return;
+            }
+
+            const tutorialToDelete = content.tutorials.find(tutorial => tutorial.id == tutorialId);
+            if (!tutorialToDelete) {
+                alert('❌ آموزش مورد نظر یافت نشد!');
+                return;
+            }
+
+            if (confirm(`آیا مطمئن هستید که می‌خواهید آموزش "${tutorialToDelete.title}" را حذف کنید؟`)) {
+                content.tutorials = content.tutorials.filter(tutorial => tutorial.id != tutorialId);
+                localStorage.setItem('carnivalContent', JSON.stringify(content));
+                
+                document.getElementById('tutorialToDelete').value = '';
+                loadContent();
+                loadHomeContent();
+                updateTutorialDeleteList();
+                alert('✅ آموزش با موفقیت حذف شد!');
+            }
+        }
+
+        // Group management functions
+        function showGroupManagement() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند گروه‌ها را مدیریت کند!');
+                return;
+            }
+            
+            document.getElementById('groupManagementPanel').style.display = 'block';
+            updateGroupDeleteList();
+        }
+
+        function hideGroupManagement() {
+            document.getElementById('groupManagementPanel').style.display = 'none';
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('groupToDelete').value = '';
+        }
+
+        function addNewGroup() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند گروه اضافه کند!');
+                return;
+            }
+
+            const groupName = document.getElementById('newGroupName').value.trim();
+            if (!groupName) {
+                alert('❌ لطفاً نام گروه را وارد کنید!');
+                return;
+            }
+
+            // Check if group already exists
+            const existingGroup = content.groups.find(group => group.title.includes(groupName));
+            if (existingGroup) {
+                alert('❌ گروهی با این نام قبلاً وجود دارد!');
+                return;
+            }
+
+            const newGroup = {
+                id: Date.now(),
+                title: `👥 ${groupName}`,
+                text: `گروه ${groupName} - محیطی مناسب برای بازی مافیا`,
+                image: '',
+                color: 'purple',
+                members: [],
+                createdAt: new Date().toISOString()
+            };
+
+            content.groups.push(newGroup);
+            localStorage.setItem('carnivalContent', JSON.stringify(content));
+            
+            document.getElementById('newGroupName').value = '';
+            loadContent();
+            loadHomeContent();
+            updateGroupDeleteList();
+            alert('✅ گروه جدید با موفقیت اضافه شد!');
+        }
+
+        function updateGroupDeleteList() {
+            const select = document.getElementById('groupToDelete');
+            select.innerHTML = '<option value="">انتخاب گروه برای حذف</option>';
+            
+            content.groups.forEach(group => {
+                if (!group.id || !group.id.toString().startsWith('default')) {
+                    const option = document.createElement('option');
+                    option.value = group.id;
+                    option.textContent = group.title.replace(/👥|🌱|🔥|⭐/g, '').trim();
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function deleteSelectedGroup() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند گروه حذف کند!');
+                return;
+            }
+
+            const groupId = document.getElementById('groupToDelete').value;
+            if (!groupId) {
+                alert('❌ لطفاً گروهی برای حذف انتخاب کنید!');
+                return;
+            }
+
+            const groupToDelete = content.groups.find(group => group.id == groupId);
+            if (!groupToDelete) {
+                alert('❌ گروه مورد نظر یافت نشد!');
+                return;
+            }
+
+            if (confirm(`آیا مطمئن هستید که می‌خواهید گروه "${groupToDelete.title}" را حذف کنید؟`)) {
+                content.groups = content.groups.filter(group => group.id != groupId);
+                localStorage.setItem('carnivalContent', JSON.stringify(content));
+                
+                document.getElementById('groupToDelete').value = '';
+                loadContent();
+                loadHomeContent();
+                updateGroupDeleteList();
+                alert('✅ گروه با موفقیت حذف شد!');
+            }
+        }
+
+        // About section management
+        function editAboutSection() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند درباره کارناوال را ویرایش کند!');
+                return;
+            }
+            
+            const aboutContent = document.getElementById('aboutContent');
+            const aboutEditForm = document.getElementById('aboutEditForm');
+            const aboutTextEdit = document.getElementById('aboutTextEdit');
+            
+            // Get current text
+            const currentText = aboutContent.querySelector('p').textContent.trim();
+            aboutTextEdit.value = currentText;
+            
+            // Show edit form, hide content
+            aboutContent.style.display = 'none';
+            aboutEditForm.style.display = 'block';
+        }
+
+        function saveAboutSection() {
+            if (!currentUser || !currentUser.isAdmin) {
+                alert('❌ فقط ادمین می‌تواند درباره کارناوال را ذخیره کند!');
+                return;
+            }
+            
+            const aboutTextEdit = document.getElementById('aboutTextEdit');
+            const newText = aboutTextEdit.value.trim();
+            
+            if (!newText) {
+                alert('❌ لطفاً متن درباره کارناوال را وارد کنید!');
+                return;
+            }
+            
+            // Save to localStorage
+            let aboutData = JSON.parse(localStorage.getItem('carnivalAbout') || '{}');
+            aboutData.text = newText;
+            aboutData.updatedAt = new Date().toISOString();
+            localStorage.setItem('carnivalAbout', JSON.stringify(aboutData));
+            
+            // Update display
+            loadAboutSection();
+            cancelAboutEdit();
+            alert('✅ درباره کارناوال با موفقیت بروزرسانی شد!');
+        }
+
+        function cancelAboutEdit() {
+            const aboutContent = document.getElementById('aboutContent');
+            const aboutEditForm = document.getElementById('aboutEditForm');
+            
+            // Show content, hide edit form
+            aboutContent.style.display = 'block';
+            aboutEditForm.style.display = 'none';
+        }
+
+        function loadAboutSection() {
+            const aboutData = JSON.parse(localStorage.getItem('carnivalAbout') || '{}');
+            const aboutContent = document.getElementById('aboutContent');
+            
+            const defaultText = 'کارناوال یک پلتفرم جامع برای علاقه‌مندان به بازی مافیا است. در اینجا می‌توانید آموزش‌های کامل، سناریوهای متنوع و گروه‌های مختلف بازی را پیدا کنید. همچنین امکان دانلود بازی مافیا تایم و ارتباط با سایر بازیکنان را دارید.';
+            
+            const textToShow = aboutData.text || defaultText;
+            aboutContent.innerHTML = `<p class="text-lg leading-relaxed text-gray-300">${textToShow}</p>`;
+        }
+
+        // Load home content display
+        function loadHomeContent() {
+            const homeContentDisplay = document.getElementById('homeContentDisplay');
+            if (!homeContentDisplay) return;
+            
+            let homeHTML = '';
+            
+            // Get latest site content first (most important)
+            const latestSiteContent = content.siteContent.slice(-3); // Last 3 site content items
+            
+            // Site Content Section
+            if (latestSiteContent.length > 0) {
+                homeHTML += `
+                    <div class="mb-8">
+                        <div class="bg-black bg-opacity-90 p-6 rounded-xl border-2 border-red-500">
+                            <h3 class="text-3xl font-bold mb-6 text-red-400 text-center">🔥 آخرین اخبار و اطلاعیه‌ها</h3>
+                            <div class="grid gap-4">
+                `;
+                
+                latestSiteContent.forEach(siteItem => {
+                    const color = siteItem.color || 'red';
+                    const icon = getSiteContentIcon(siteItem.siteType);
+                    const typeText = {
+                        'news': 'خبر',
+                        'announcement': 'اطلاعیه',
+                        'event': 'رویداد',
+                        'update': 'بروزرسانی'
+                    }[siteItem.siteType] || 'خبر';
+                    
+                    homeHTML += `
+                        <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-${color}-500 card-hover">
+                            ${siteItem.image ? `<img src="${siteItem.image}" alt="${siteItem.title}" class="w-full h-48 object-cover rounded-lg mb-4">` : ''}
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="text-xl font-bold text-${color}-400">${icon} ${siteItem.title}</h4>
+                                <span class="bg-${color}-600 text-white px-3 py-1 rounded-full text-sm font-bold">${typeText}</span>
+                            </div>
+                            <p class="text-gray-300 leading-relaxed">${siteItem.text}</p>
+                            <div class="mt-4 text-sm text-gray-400">
+                                📅 ${new Date(siteItem.createdAt).toLocaleDateString('fa-IR')}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                homeHTML += '</div></div></div>';
+            }
+            
+            // Get latest content from other categories
+            const latestTutorials = content.tutorials.slice(-2); // Last 2 tutorials
+            const latestGroups = content.groups.slice(-2); // Last 2 groups
+            
+            if (latestTutorials.length > 0 || latestGroups.length > 0) {
+                homeHTML += '<div class="grid lg:grid-cols-2 gap-8">';
+                
+                // Latest Tutorials
+                if (latestTutorials.length > 0) {
+                    homeHTML += `
+                        <div class="bg-black bg-opacity-80 p-6 rounded-xl border border-blue-500">
+                            <h3 class="text-2xl font-bold mb-6 text-blue-400 text-center">📚 آخرین آموزش‌ها</h3>
+                            <div class="space-y-4">
+                    `;
+                    
+                    latestTutorials.forEach(tutorial => {
+                        const color = tutorial.color || 'blue';
+                        homeHTML += `
+                            <div class="bg-gray-800 p-4 rounded-lg border-r-4 border-${color}-400">
+                                <h4 class="text-lg font-bold mb-2 text-${color}-400">${tutorial.title}</h4>
+                                <p class="text-sm text-gray-300">${tutorial.text.substring(0, 100)}${tutorial.text.length > 100 ? '...' : ''}</p>
+                                <button onclick="showSection('tutorials')" class="mt-2 text-${color}-400 hover:text-${color}-300 text-sm font-bold">
+                                    مشاهده کامل ←
+                                </button>
+                            </div>
+                        `;
+                    });
+                    
+                    homeHTML += '</div></div>';
+                }
+                
+                // Latest Groups
+                if (latestGroups.length > 0) {
+                    homeHTML += `
+                        <div class="bg-black bg-opacity-80 p-6 rounded-xl border border-purple-500">
+                            <h3 class="text-2xl font-bold mb-6 text-purple-400 text-center">👥 آخرین گروه‌ها</h3>
+                            <div class="space-y-4">
+                    `;
+                    
+                    latestGroups.forEach(group => {
+                        const color = group.color || 'purple';
+                        homeHTML += `
+                            <div class="bg-gray-800 p-4 rounded-lg border-r-4 border-${color}-400">
+                                <h4 class="text-lg font-bold mb-2 text-${color}-400">${group.title}</h4>
+                                <p class="text-sm text-gray-300">${group.text.substring(0, 100)}${group.text.length > 100 ? '...' : ''}</p>
+                                ${group.members && group.members.length > 0 ? `
+                                    <div class="mt-2 flex flex-wrap gap-1">
+                                        ${group.members.slice(0, 3).map(member => `
+                                            <span class="bg-${color}-600 text-white px-2 py-1 rounded-full text-xs">${member}</span>
+                                        `).join('')}
+                                        ${group.members.length > 3 ? `<span class="text-${color}-400 text-xs">+${group.members.length - 3} نفر دیگر</span>` : ''}
+                                    </div>
+                                ` : ''}
+                                <button onclick="showSection('groups')" class="mt-2 text-${color}-400 hover:text-${color}-300 text-sm font-bold">
+                                    مشاهده کامل ←
+                                </button>
+                            </div>
+                        `;
+                    });
+                    
+                    homeHTML += '</div></div>';
+                }
+                
+                homeHTML += '</div>';
+            }
+            
+            homeContentDisplay.innerHTML = homeHTML;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadContent();
+            loadAboutSection();
+            loadHomeContent();
+            updateUsersList();
+            showSection('home');
+            
+            // Update users list every 30 seconds
+            setInterval(updateUsersList, 30000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96bd1a06f67537e0',t:'MTc1NDYzNjA1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
